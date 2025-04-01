@@ -1,11 +1,15 @@
 <script>
+	import { getGameStatus } from '$lib';
 	import Cell from './Cell.svelte';
 
 	let turn = $state('X');
-	let arr = $state(Array.from({ length: 9 }).map((_, i) => ''));
+	let arr = $state(Array.from({ length: 9 }).map(() => undefined));
+	const result = $derived.by(() => getGameStatus(arr));
 
 	function onCellClick(pos) {
-		arr[pos] = turn;
+		const newArr = [...arr];
+		newArr[pos] = turn;
+		arr = [...newArr];
 		turn = turn === 'X' ? 'O' : 'X';
 	}
 </script>
@@ -18,4 +22,5 @@
 			onClick={onCellClick}
 		/>
 	{/each}
+	<span>{result}</span>
 </div>
