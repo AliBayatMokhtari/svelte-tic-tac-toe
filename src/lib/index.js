@@ -15,5 +15,5 @@ export function getCellClass(pos) {
 		}
 	}
 
-	return `flex items-center justify-center w-full ${__cls}`;
+	return `flex items-center justify-center w-full h-[100px] text-3xl ${__cls}`;
 }
