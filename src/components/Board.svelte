@@ -2,26 +2,28 @@
 	import { getGameStatus } from '$lib';
 	import Cell from './Cell.svelte';
 
+	const initialBoard = Array.from({ length: 9 }).map(() => undefined);
+
 	let turn = $state('X');
-	let arr = $state(Array.from({ length: 9 }).map(() => undefined));
-	const result = $derived.by(() => getGameStatus(arr));
+	let board = $state([...initialBoard]);
+	const result = $derived.by(() => getGameStatus(board));
 
 	function onCellClick(pos) {
-		const newArr = [...arr];
+		const newArr = [...board];
 		newArr[pos] = turn;
-		arr = [...newArr];
+		board = [...newArr];
 		turn = turn === 'X' ? 'O' : 'X';
 	}
 
 	function resetGame() {
-		arr = Array.from({ length: 9 }).map(() => undefined);
+		board = [...initialBoard];
 		turn = 'X';
 	}
 </script>
 
 <div>
 	<div class="mt-4 grid h-[300px] w-[300px] grid-cols-3 border">
-		{#each arr as value, i}
+		{#each board as value, i}
 			<Cell
 				{value}
 				pos={i}
